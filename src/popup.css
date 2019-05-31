@@ -1,0 +1,30 @@
+body {
+    width: 225px;
+}
+
+.muteButton {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    background: #DDDDDD;
+    border-radius: 2px;
+}
+
+.tabMuteCol {
+    padding: 5px;
+}
+
+.tabNameCol {
+    padding: 5px;
+}
+
+.tabRow {
+    padding: 2px;
+    background: #F1F1F1;
+    border-radius: 4px;
+}
+
+#tabTable {
+    width: 100%;
+}
