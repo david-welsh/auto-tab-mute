@@ -1,0 +1,8 @@
+.idea
+*.iml
+out
+gen
+output/
+node_modules/
+yarn.lock
+*.log
