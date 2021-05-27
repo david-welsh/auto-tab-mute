@@ -67,7 +67,7 @@ Controller.prototype.setActiveStrategy = function(activeStrategy) {
     let self = this;
 
     this.currentActivationListener = function(tabInfo) {
-        self.activeStrategy.onTabActivated(tabInfo);
+        setTimeout(() => self.activeStrategy.onTabActivated(tabInfo), 100);
     };
     this.currentUpdatedListener = function(tabId, changeInfo, updatedTab) {
         self.activeStrategy.onTabUpdate(tabId, changeInfo, updatedTab);
