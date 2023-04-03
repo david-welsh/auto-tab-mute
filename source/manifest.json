@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Auto Tab Mute",
   "version": "3.0.0",
 
@@ -16,8 +16,6 @@
     "storage"
   ],
 
-  "content_security_policy": "script-src 'self'; object-src 'self'",
-
   "__chrome|firefox__author": "David Welsh",
   "__opera__developer": {
     "name": "David Welsh"
@@ -32,29 +30,27 @@
   "__chrome__minimum_chrome_version": "49",
   "__opera__minimum_opera_version": "36",
 
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "assets/icons/Logo-16x16.png",
       "32": "assets/icons/Logo-48x48.png",
       "128": "assets/icons/Logo-128x128.png"
     },
-    "default_title": "tiny title",
+    "default_title": "ATM",
     "__chrome|opera__chrome_style": false,
     "__firefox__browser_style": false
   },
 
-  "__chrome|opera__options_page": "options.html",
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": true,
-    "__chrome__chrome_style": false
-  },
-
   "background": {
-    "scripts": [
-      "js/background.bundle.js"
-    ],
-    "__chrome|opera__persistent": false
+    "service_worker": "js/background.bundle.js"
+  },
+  "commands": {
+    "toggle_extension": {
+      "description": "Toggle the extension on/off",
+      "suggested_key": {
+        "default": "Alt+Shift+U"
+      }
+    }
   }
 }

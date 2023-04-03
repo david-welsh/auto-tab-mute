@@ -24,7 +24,7 @@ const extensionReloaderPlugin =
         reloadPage: true,
         entries: {
           background: 'background',
-          extensionPage: ['popup', 'options'],
+          extensionPage: ['popup'],
         },
       })
     : () => {
@@ -59,7 +59,6 @@ module.exports = {
     manifest: path.join(sourcePath, 'manifest.json'),
     background: path.join(sourcePath, 'Background', 'index.ts'),
     popup: path.join(sourcePath, 'Popup', 'index.tsx'),
-    options: path.join(sourcePath, 'Options', 'index.tsx'),
   },
 
   output: {
@@ -155,13 +154,6 @@ module.exports = {
       hash: true,
       filename: 'popup.html',
     }),
-    new HtmlWebpackPlugin({
-      template: path.join(viewsPath, 'options.html'),
-      inject: 'body',
-      chunks: ['options'],
-      hash: true,
-      filename: 'options.html',
-    }),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({filename: 'css/[name].css'}),
     // copy static assets
@@ -173,7 +165,7 @@ module.exports = {
   ],
 
   optimization: {
-    minimize: true,
+    minimize: false,
     minimizer: [
       new TerserPlugin({
         parallel: true,
