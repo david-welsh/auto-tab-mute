@@ -15,12 +15,12 @@ jobs:
 
       - name: Install Node.js
         uses: actions/setup-node@v2
-          with:
+        with:
             node-version: '12'
 
       - name: Cache Dependencies
         uses: actions/cache@v2
-          with:
+        with:
             path: '**/node_modules'
             key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
   
