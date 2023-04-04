@@ -2,7 +2,7 @@ name: Release script
 on:
   push:
     branches: 
-      - release/*
+      - 'release/**'
       
 jobs:
   build:
