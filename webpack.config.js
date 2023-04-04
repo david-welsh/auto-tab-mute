@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const FilemanagerPlugin = require('filemanager-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
@@ -9,7 +8,6 @@ const ExtensionReloader = require('webpack-extension-reloader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WextManifestWebpackPlugin = require('wext-manifest-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const viewsPath = path.join(__dirname, 'views');
 const sourcePath = path.join(__dirname, 'source');
@@ -165,22 +163,8 @@ module.exports = {
   ],
 
   optimization: {
-    minimize: false,
+    minimize: true,
     minimizer: [
-      new TerserPlugin({
-        parallel: true,
-        terserOptions: {
-          format: {
-            comments: false,
-          },
-        },
-        extractComments: false,
-      }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorPluginOptions: {
-          preset: ['default', {discardComments: {removeAll: true}}],
-        },
-      }),
       new FilemanagerPlugin({
         events: {
           onEnd: {
