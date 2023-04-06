@@ -6,58 +6,43 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 import './styles.scss';
 import Browser from 'webextension-polyfill';
 
 const TabList: React.FC<{ tabs: Browser.Tabs.Tab[], selectedTabIds: number[], selectTab: (tabId: number) => void, deselectTab: (tabId: number) => void }> = 
     ({ tabs, selectedTabIds, selectTab, deselectTab }) => {
-            (<table id="tabTable">
-                {tabs.map((tab) => {
-                    const checked = selectedTabIds.includes(tab.id!);
-                    return (
-                        <tr className="tabRow">
-                            <td className="tabNameCol">{tab.title}</td>
-                            <td className="tabMuteCol">
-                                <input type="checkbox" checked={checked} onChange={(event) => {
-                                    if (event.target.checked) {
-                                        selectTab(tab.id!);
-                                    } else {
-                                        deselectTab(tab.id!);
-                                    }
-                                }}/>
-                            </td>
-                        </tr>
-                    );
-                })}
-            </table>);
-
         return (
-            <TableContainer component={Paper}>
-                <Table size="small">
-                    <TableBody>
-                    {tabs.map((tab) => {
-                        const checked = selectedTabIds.includes(tab.id!);
-                        return (
-                            <TableRow key={tab.id!} >
-                                <TableCell component="th" scope="row">
-                                    {tab.title}
-                                </TableCell>
-                                <TableCell align="right">
-                                    <input type="checkbox" checked={checked} onChange={(event) => {
-                                        if (event.target.checked) {
-                                            selectTab(tab.id!);
-                                        } else {
-                                            deselectTab(tab.id!);
-                                        }
-                                    }}/>    
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <FormControl>
+                <FormLabel style={{marginBottom: "5px"}}>Allowed tabs</FormLabel>
+                <TableContainer component={Paper}>
+                    <Table size="small">
+                        <TableBody>
+                        {tabs.map((tab) => {
+                            const checked = selectedTabIds.includes(tab.id!);
+                            return (
+                                <TableRow key={tab.id!} >
+                                    <TableCell component="th" scope="row">
+                                        {tab.title}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <input type="checkbox" checked={checked} onChange={(event) => {
+                                            if (event.target.checked) {
+                                                selectTab(tab.id!);
+                                            } else {
+                                                deselectTab(tab.id!);
+                                            }
+                                        }}/>    
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </FormControl>
         );
 };
 

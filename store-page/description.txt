@@ -1,0 +1,21 @@
+Extension to automatically mute background tabs if the current tab is playing audio. This allows for fast switching between different audio playing tabs without manually muting and unmuting. This extension can be toggled on/off by a button added to the browser interface or by a keyboard shortcut (Ctrl+Shift+U/Cmd+Shift+U).
+
+Updates
+Version 3.0:
+- Added experimental option for 'Active Tab' strategy to apply it across multiple windows (please send any issues to the listed email address)
+- Added 'Mute All' strategy to mute every tab and prevent any new tabs playing audio
+- Improved stability of 'Allow List' strategy
+- Updated logo and branding of the extension
+- Updated UI
+- Updated to manifest version 3 and changed to use service workers
+
+Version 2.1:
+- Added workaround for chromium issue 1213925 which prevents fetching tab info when clicking on a new tab
+
+Version 2.0:
+- Added popup upon clicking the tray icon to allow controlling the extensions behaviour
+- Added ability to select muting strategy, with "Active tab" being equivalent to the behaviour of the original extension and "Allow List" allowing you to select which tabs should be allowed to play audio by selecting the check boxes next to the title of the tab in the popup
+- The behaviour should be the same as before if the "Active tab" strategy is selected, only difference is an extra click to enable/disable the extension since the tray icon now shows the popup on click
+- Please contact me at the listed email address if any desired behaviour has been changed or if you have suggestions for other muting strategies to be implemented
+
+Source available at: github.com/david-welsh/auto-tab-mute

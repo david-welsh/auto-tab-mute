@@ -1,0 +1,8 @@
+Single purpose description:
+Automatically mute background tabs
+
+Storage permission justification:
+Storage is used to persist user settings.
+
+Tabs justification:
+Tab access is required for reading and setting the muted status of tabs and checking which tab is being viewed for the automatic muting functionality. Tab titles are also accessed to be shown in the pop-up menu for selection for the allow list mode.

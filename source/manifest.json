@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Auto Tab Mute",
-  "version": "3.0.0",
+  "version": "3.0",
 
   "icons": {
     "16": "assets/icons/Logo-16x16.png",
@@ -27,7 +27,7 @@
     }
   },
 
-  "__chrome__minimum_chrome_version": "49",
+  "__chrome__minimum_chrome_version": "88",
   "__opera__minimum_opera_version": "36",
 
   "action": {
@@ -49,7 +49,10 @@
     "toggle_extension": {
       "description": "Toggle the extension on/off",
       "suggested_key": {
-        "default": "Alt+Shift+U"
+        "windows": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U",
+        "chromeos": "Ctrl+Shift+U",
+        "linux": "Ctrl+Shift+U"
       }
     }
   }

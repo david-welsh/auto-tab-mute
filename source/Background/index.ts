@@ -27,7 +27,7 @@ async function getSelectedTabs(): Promise<{ selectedTabs: number[] }> {
     };
 }
 
-function setIcon(enabled: boolean | undefined): Promise<void> {
+function onEnabled(enabled: boolean | undefined): Promise<void> {
     const details = {
         path: {
             "16": enabled ? "../assets/icons/Logo-16x16.png" : "../assets/icons/Disabled-16x16.png",
@@ -47,7 +47,7 @@ function toggleExtension(nowEnabled: boolean): void {
             MuteUtils.unmuteAll();
         }
 
-        setIcon(nowEnabled);
+        onEnabled(nowEnabled);
     });
 }
 
@@ -55,7 +55,7 @@ function initStorage(): void {
     getConfig().then(({selectedStrategy, enabled}) => {
         if (selectedStrategy == null) Browser.storage.sync.set({ selected_strategy: "Active tab" });
         if (enabled == null) Browser.storage.sync.set({ extension_enabled: true });
-        setIcon(enabled);
+        onEnabled(enabled);
     });
     getSelectedTabs().then(({selectedTabs}) => {
         if (selectedTabs == null) Browser.storage.local.set({ selectedTabs: [] });
@@ -72,7 +72,7 @@ function initCommandsAndMessages(): void {
             })
         }
     });
-    Browser.runtime.onMessage.addListener((request) => {
+    Browser.runtime.onMessage.addListener((request, _, sendResponse) => {
         switch (request.type) {
             case constants.MessageType.STRATEGY_SELECT:
                 if (mutingStrategies.has(request.selectedStrategy)) {
@@ -125,7 +125,7 @@ function initCommandsAndMessages(): void {
                 console.log("Unknown message type: %s", request.type, request);
                 break;
         };
-        return true;
+        sendResponse();
     });
 }
 
