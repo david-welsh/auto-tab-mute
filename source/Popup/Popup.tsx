@@ -1,8 +1,14 @@
 import * as React from 'react';
 
+import Divider from '@mui/material/Divider';
+
 import './styles.scss';
 import Browser from 'webextension-polyfill';
 import { Messaging } from '../Messaging';
+import StrategySelect from './StrategySelect';
+import EnableControl from './EnableControl';
+import ActiveTabOptions from './ActiveTabOptions';
+import TabList from './TabList';
 
 const Popup: React.FC = () => {
   const [tabs, setTabs] = React.useState<Browser.Tabs.Tab[]>([]);
@@ -29,33 +35,34 @@ const Popup: React.FC = () => {
     fetchData();
   }, []);
 
+  const divider = <Divider variant="middle" style={{
+    marginTop: "10px",
+    marginBottom: "10px"
+  }} />
+
   return (
     <section>
-      <label>Toggle AutoTabMute: </label><button onClick={() => {
-        Messaging.sendEnableDisable(!enabled);
-        setEnabled(!enabled);
-      }}>{enabled ? "Off" : "On"}</button>
+      <EnableControl enabled={enabled} toggle={(nowEnabled) => {
+        Messaging.sendEnableDisable(nowEnabled);
+        setEnabled(nowEnabled);
+      }} />
 
       {
         enabled
           ? <>
-              <hr />
-                <label>Strategy: </label>
-                <select onChange={(event) => {
-                  Messaging.sendStrategySelect(event.target.value);
-                  setSelectedStrategy(event.target.value);
-                }} value={selectedStrategy}>
-                  {strategies.map(strategy => <option value={strategy}>{strategy}</option>)}
-                </select>
+                {divider}
+                <StrategySelect strategies={strategies} selectedStrategy={selectedStrategy} onChange= {(selected) => {
+                  Messaging.sendStrategySelect(selected);
+                  setSelectedStrategy(selected);
+                }}/>
                 {
                   selectedStrategy === "Active tab"
                     ? (
                       <>
-                        <hr />
-                        <label>Apply across windows</label>
-                        <input type="checkbox" checked={applyAcrossWindows} onChange={(event) => {
-                          Browser.storage.sync.set({ onlySelectedWindow: event.target.checked });
-                          setApplyAcrossWindows(event.target.checked);
+                        {divider}
+                        <ActiveTabOptions applyAcrossWindows={applyAcrossWindows} onChange={(apply) => {
+                          Browser.storage.sync.set({ onlySelectedWindow: apply });
+                          setApplyAcrossWindows(apply);
                           Messaging.sendEnableDisable(enabled);
                         }} />
                       </>
@@ -65,28 +72,19 @@ const Popup: React.FC = () => {
                   selectedStrategy === "Allow list" 
                     ? (
                       <>
-                        <hr />
-                        <table id="tabTable">
-                          {tabs.map((tab) => {
-                            const checked = selectedTabs?.includes(tab.id!);
-                            return (
-                              <tr className="tabRow">
-                                <td className="tabNameCol">{tab.title}</td>
-                                <td className="tabMuteCol">
-                                  <input type="checkbox" checked={checked} onChange={(event) => {
-                                    if (event.target.checked) {
-                                      Messaging.sendAddSelectedTab(tab.id!);
-                                      setSelectedTabs([...selectedTabs, tab.id!]);
-                                    } else {
-                                      Messaging.sendRemoveSelectedTab(tab.id!);
-                                      setSelectedTabs(selectedTabs.filter(t => t !== tab.id!))
-                                    }
-                                  }}/>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </table>
+                        {divider}
+                        <TabList 
+                          tabs={tabs}
+                          selectedTabIds={selectedTabs}
+                          selectTab={(tabId) => {
+                            Messaging.sendAddSelectedTab(tabId);
+                            setSelectedTabs([...selectedTabs, tabId]);
+                          }}
+                          deselectTab={(tabId) => {
+                            Messaging.sendRemoveSelectedTab(tabId);
+                            setSelectedTabs(selectedTabs.filter(t => t !== tabId))
+                          }}
+                        />
                       </>
                     )
                     : null
