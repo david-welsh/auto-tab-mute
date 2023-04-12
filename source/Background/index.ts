@@ -5,6 +5,7 @@ import { MutingStrategy } from "./MutingStrategy";
 import constants from "../constants";
 import { MuteUtils } from "./MuteUtils";
 import { MuteAllStrategy } from "./MuteAllStrategy";
+import { Logging } from "../Logging";
 
 const mutingStrategies = new Map<string, MutingStrategy>();
 mutingStrategies.set("Active tab", new ActiveTabStrategy());
@@ -12,7 +13,9 @@ mutingStrategies.set("Allow list", new AllowListStrategy());
 mutingStrategies.set("Mute all", new MuteAllStrategy());
 
 async function getConfig(): Promise<{ enabled: boolean; selectedStrategy: string; onlySelectedWindow: boolean }> {
+    Logging.trace("Fetching sync config");
     const config = await Browser.storage.sync.get(["extension_enabled", "selected_strategy", "onlySelectedWindow"]);
+    Logging.trace("Fetched sync config", config);
     return {
         enabled: config.extension_enabled,
         selectedStrategy: config.selected_strategy,
@@ -21,6 +24,7 @@ async function getConfig(): Promise<{ enabled: boolean; selectedStrategy: string
 }
 
 async function getSelectedTabs(): Promise<{ selectedTabs: number[] }> {
+    Logging.trace("Fetching selected tabs");
     const { selectedTabs } = await Browser.storage.local.get("selectedTabs");
     return {
         selectedTabs
@@ -38,7 +42,22 @@ function onEnabled(enabled: boolean | undefined): Promise<void> {
     return Browser.action.setIcon(details);
 }
 
+function applyIfEnabled(f: (s: MutingStrategy) => void): void {
+    Logging.trace("Applying strategy if enabled");
+    getConfig().then(({enabled, selectedStrategy}) => {
+        if (enabled) {
+            const strategy = mutingStrategies.get(selectedStrategy)
+            if (strategy == null) {
+                Logging.warn("Unexpected strategy: ", selectedStrategy);
+            } else {
+                f(strategy);
+            }
+        }
+    });
+}
+
 function toggleExtension(nowEnabled: boolean): void {
+    Logging.trace("Toggling extension", nowEnabled);
     getConfig().then(({selectedStrategy}) => {
         Browser.storage.sync.set({"extension_enabled": nowEnabled})
         if (nowEnabled) {
@@ -52,6 +71,7 @@ function toggleExtension(nowEnabled: boolean): void {
 }
 
 function initStorage(): void {
+    Logging.trace("Initialising storage");
     getConfig().then(({selectedStrategy, enabled}) => {
         if (selectedStrategy == null) Browser.storage.sync.set({ selected_strategy: "Active tab" });
         if (enabled == null) Browser.storage.sync.set({ extension_enabled: true });
@@ -66,20 +86,22 @@ function initStorage(): void {
 
 function initCommandsAndMessages(): void {
     Browser.commands.onCommand.addListener((command) => {
+        Logging.trace("Received command", command);
         if (command === "toggle_extension") {
             getConfig().then(({enabled}) => {
                 toggleExtension(!enabled);
             })
         }
     });
-    Browser.runtime.onMessage.addListener((request, _, sendResponse) => {
+    Browser.runtime.onMessage.addListener((request) => {
+        Logging.trace("Received message", request);
         switch (request.type) {
             case constants.MessageType.STRATEGY_SELECT:
                 if (mutingStrategies.has(request.selectedStrategy)) {
                     Browser.storage.sync.set({"selected_strategy": request.selectedStrategy});
                     mutingStrategies.get(request.selectedStrategy)?.onToggle();
                 } else {
-                    console.warn("Unknown strategy selected: %s", request.selectedStrategy);
+                    Logging.warn("Unknown strategy selected: %s", request.selectedStrategy);
                 }
                 break;
             case constants.MessageType.ADD_SELECTED_TAB:
@@ -87,12 +109,7 @@ function initCommandsAndMessages(): void {
                     if (!selectedTabs?.includes(request.tab)) {
                         const updatedSelectedTabs = [...selectedTabs, request.tab];
                         Browser.storage.local.set({ selectedTabs: updatedSelectedTabs });
-    
-                        getConfig().then(({enabled, selectedStrategy}) => {
-                            if (enabled) {
-                                mutingStrategies.get(selectedStrategy)?.onSelectedTabsChange();
-                            }
-                        });
+                        applyIfEnabled(strategy => strategy.onSelectedTabsChange());
                     }
                 });
                 break;
@@ -101,12 +118,7 @@ function initCommandsAndMessages(): void {
                     if (selectedTabs?.includes(request.tab)) {
                         const updatedSelectedTabs = selectedTabs.filter((tab) => tab !== request.tab);
                         Browser.storage.local.set({ selectedTabs: updatedSelectedTabs });
-    
-                        getConfig().then(({enabled, selectedStrategy}) => {
-                            if (enabled) {
-                                mutingStrategies.get(selectedStrategy)?.onSelectedTabsChange();
-                            }
-                        });
+                        applyIfEnabled(strategy => strategy.onSelectedTabsChange());
                     }
                 });
                 break;
@@ -118,64 +130,42 @@ function initCommandsAndMessages(): void {
                     Browser.storage.sync.set({"selected_strategy": request.selectedStrategy});
                     mutingStrategies.get(request.selectedStrategy)?.onToggle();
                 } else {
-                    console.warn("Unknown strategy selected: %s", request.selectedStrategy);
+                    Logging.warn("Unknown strategy selected: %s", request.selectedStrategy);
                 }
                 break;
             default:
-                console.log("Unknown message type: %s", request.type, request);
+                Logging.info("Unknown message type: %s", request.type, request);
                 break;
         };
-        sendResponse();
     });
 }
 
 initStorage();
 initCommandsAndMessages();
 
-Browser.tabs.onActivated.addListener(async (tabInfo) => {
-    const {enabled, selectedStrategy} = await getConfig();
-    if (enabled) {
-        const strategy = mutingStrategies.get(selectedStrategy);
-        console.trace("Tab activated: ", tabInfo);
-        strategy?.onTabActivated(tabInfo);
-    }
+Browser.tabs.onActivated.addListener((tabInfo) => {
+    Logging.trace("Tab activated", tabInfo);
+    applyIfEnabled(strategy => strategy.onTabActivated(tabInfo));  
 });
-Browser.tabs.onUpdated.addListener(async (tabId, tabInfo, tab) => {
-    const {enabled, selectedStrategy} = await getConfig();
-    if (enabled) {
-        const strategy = mutingStrategies.get(selectedStrategy);
-        console.trace("Tab updated: ", tabInfo);
-        strategy?.onTabUpdate(tabId, tabInfo, tab);
-    }
-});
-Browser.windows.onFocusChanged.addListener(async (windowId) => {
-    const {enabled, selectedStrategy} = await getConfig();
 
-    const currentWindow = (await Browser.storage.local.get("currentWindow")).currentWindow;
-    if (windowId < 0) {
-        await Browser.storage.local.set({ lastActiveWindow: currentWindow });
-    } else {
-        await Browser.storage.local.remove("lastActiveWindow");
-        await Browser.storage.local.set({ currentWindow: windowId });
-    }
-
-    if (enabled) {
-        const strategy = mutingStrategies.get(selectedStrategy);
-        console.trace("Toggling strategy");
-        strategy?.onToggle();
-    }
+Browser.tabs.onUpdated.addListener((tabId, tabInfo, tab) => {
+    Logging.trace("Tab updated", tabInfo);
+    applyIfEnabled(strategy => strategy.onTabUpdate(tabId, tabInfo, tab));
 });
+
+Browser.windows.onFocusChanged.addListener((window) => {
+    Logging.trace("Window focused", window);
+    applyIfEnabled(strategy => strategy.onToggle());
+});
+
 Browser.tabs.onRemoved.addListener((tabId) => {
+    Logging.trace("Tab removed", tabId);
     getSelectedTabs().then(({selectedTabs}) => {
         if (tabId != null && selectedTabs?.includes(tabId)) {
             const updatedSelectedTabs = selectedTabs.filter((tab) => tab !== tabId);
             Browser.storage.local.set({ selectedTabs: updatedSelectedTabs });
 
-            getConfig().then(({enabled, selectedStrategy}) => {
-                if (enabled) {
-                    mutingStrategies.get(selectedStrategy)?.onSelectedTabsChange();
-                }
-            });
+            applyIfEnabled(strategy => strategy.onSelectedTabsChange());
         }
     });
 });

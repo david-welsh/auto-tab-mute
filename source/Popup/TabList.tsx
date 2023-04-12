@@ -18,13 +18,13 @@ const TabList: React.FC<{ tabs: Browser.Tabs.Tab[], selectedTabIds: number[], se
             <FormControl>
                 <FormLabel style={{marginBottom: "5px"}}>Allowed tabs</FormLabel>
                 <TableContainer component={Paper}>
-                    <Table size="small">
+                    <Table size="small" style={{tableLayout: "fixed"}}>
                         <TableBody>
                         {tabs.map((tab) => {
                             const checked = selectedTabIds.includes(tab.id!);
                             return (
                                 <TableRow key={tab.id!} >
-                                    <TableCell component="th" scope="row">
+                                    <TableCell component="th" scope="row" style={{width: "70%", overflowX: "clip", textOverflow: "ellipsis"}}>
                                         {tab.title}
                                     </TableCell>
                                     <TableCell align="right">
