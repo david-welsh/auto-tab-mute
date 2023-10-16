@@ -12,38 +12,54 @@ import FormLabel from '@mui/material/FormLabel';
 import './styles.scss';
 import Browser from 'webextension-polyfill';
 
-const TabList: React.FC<{ tabs: Browser.Tabs.Tab[], selectedTabIds: number[], selectTab: (tabId: number) => void, deselectTab: (tabId: number) => void }> = 
-    ({ tabs, selectedTabIds, selectTab, deselectTab }) => {
-        return (
-            <FormControl>
-                <FormLabel style={{marginBottom: "5px"}}>Allowed tabs</FormLabel>
-                <TableContainer component={Paper}>
-                    <Table size="small" style={{tableLayout: "fixed"}}>
-                        <TableBody>
-                        {tabs.map((tab) => {
-                            const checked = selectedTabIds.includes(tab.id!);
-                            return (
-                                <TableRow key={tab.id!} >
-                                    <TableCell component="th" scope="row" style={{width: "70%", overflowX: "clip", textOverflow: "ellipsis"}}>
-                                        {tab.title}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <input type="checkbox" checked={checked} onChange={(event) => {
-                                            if (event.target.checked) {
-                                                selectTab(tab.id!);
-                                            } else {
-                                                deselectTab(tab.id!);
-                                            }
-                                        }}/>    
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </FormControl>
-        );
+const TabList: React.FC<{
+  tabs: Browser.Tabs.Tab[];
+  selectedTabIds: number[];
+  selectTab: (tabId: number) => void;
+  deselectTab: (tabId: number) => void;
+}> = ({tabs, selectedTabIds, selectTab, deselectTab}) => {
+  return (
+    <FormControl>
+      <FormLabel style={{marginBottom: '5px'}}>Allowed tabs</FormLabel>
+      <TableContainer component={Paper}>
+        <Table size="small" style={{tableLayout: 'fixed'}}>
+          <TableBody>
+            {tabs.map((tab) => {
+              const checked = selectedTabIds.includes(tab.id!);
+              return (
+                <TableRow key={tab.id!}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    style={{
+                      width: '70%',
+                      overflowX: 'clip',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {tab.title}
+                  </TableCell>
+                  <TableCell align="right">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={(event) => {
+                        if (event.target.checked) {
+                          selectTab(tab.id!);
+                        } else {
+                          deselectTab(tab.id!);
+                        }
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </FormControl>
+  );
 };
 
 export default TabList;
