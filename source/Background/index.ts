@@ -148,19 +148,6 @@ function initCommandsAndMessages(): void {
       case constants.MessageType.ENABLE_DISABLE:
         toggleExtension(request.isEnabled);
         break;
-      case constants.MessageType.STRATEGY_SELECT:
-        if (mutingStrategies.has(request.selectedStrategy)) {
-          Browser.storage.sync.set({
-            selected_strategy: request.selectedStrategy,
-          });
-          mutingStrategies.get(request.selectedStrategy)?.onToggle();
-        } else {
-          Logging.warn(
-            'Unknown strategy selected: %s',
-            request.selectedStrategy
-          );
-        }
-        break;
       default:
         Logging.info('Unknown message type: %s', request.type, request);
         break;

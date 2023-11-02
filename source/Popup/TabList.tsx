@@ -27,7 +27,19 @@ const TabList: React.FC<{
             {tabs.map((tab) => {
               const checked = selectedTabIds.includes(tab.id!);
               return (
-                <TableRow key={tab.id!}>
+                <TableRow
+                  key={tab.id!}
+                  onClick={() => {
+                    if (checked) {
+                      deselectTab(tab.id!);
+                    } else {
+                      selectTab(tab.id!);
+                    }
+                  }}
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                >
                   <TableCell
                     component="th"
                     scope="row"
