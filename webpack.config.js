@@ -4,7 +4,6 @@ const FilemanagerPlugin = require('filemanager-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const ExtensionReloader = require('webpack-extension-reloader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WextManifestWebpackPlugin = require('wext-manifest-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -14,20 +13,6 @@ const sourcePath = path.join(__dirname, 'source');
 const destPath = path.join(__dirname, 'extension');
 const nodeEnv = process.env.NODE_ENV || 'development';
 const targetBrowser = process.env.TARGET_BROWSER;
-
-const extensionReloaderPlugin =
-  nodeEnv === 'development'
-    ? new ExtensionReloader({
-        port: 9090,
-        reloadPage: true,
-        entries: {
-          background: 'background',
-          extensionPage: ['popup'],
-        },
-      })
-    : () => {
-        this.apply = () => {};
-      };
 
 const getExtensionFileType = (browser) => {
   if (browser === 'opera') {
@@ -129,7 +114,7 @@ module.exports = {
     // Plugin to not generate js bundle for manifest entry
     new WextManifestWebpackPlugin(),
     // Generate sourcemaps
-    new webpack.SourceMapDevToolPlugin({filename: false}),
+    new webpack.SourceMapDevToolPlugin({ filename: false }),
     new ForkTsCheckerWebpackPlugin(),
     // environmental variables
     new webpack.EnvironmentPlugin(['NODE_ENV', 'TARGET_BROWSER']),
@@ -153,13 +138,11 @@ module.exports = {
       filename: 'popup.html',
     }),
     // write css file(s) to build folder
-    new MiniCssExtractPlugin({filename: 'css/[name].css'}),
+    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
     // copy static assets
     new CopyWebpackPlugin({
-      patterns: [{from: 'source/assets', to: 'assets'}],
+      patterns: [{ from: 'source/assets', to: 'assets' }],
     }),
-    // plugin to enable browser reloading in development mode
-    extensionReloaderPlugin,
   ],
 
   optimization: {
@@ -176,7 +159,7 @@ module.exports = {
                   destPath,
                   targetBrowser
                 )}.${getExtensionFileType(targetBrowser)}`,
-                options: {zlib: {level: 6}},
+                options: { zlib: { level: 6 } },
               },
             ],
           },
