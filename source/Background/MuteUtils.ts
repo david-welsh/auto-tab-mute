@@ -1,5 +1,5 @@
 import Browser from 'webextension-polyfill';
-import {Logging} from '../Logging';
+import { Logging } from '../Logging';
 
 export class MuteUtils {
   static muteAudibleTabs(exclusions: (undefined | number)[]): void {
@@ -79,13 +79,13 @@ export class MuteUtils {
     onlySelectedWindow: boolean
   ): Promise<Browser.Tabs.Tab[]> {
     if (onlySelectedWindow) {
-      return Browser.tabs.query({highlighted: true, lastFocusedWindow: true});
+      return Browser.tabs.query({ highlighted: true, lastFocusedWindow: true });
     }
-    return Browser.tabs.query({highlighted: true});
+    return Browser.tabs.query({ highlighted: true });
   }
 
   private static getAudibleTabs(): Promise<Browser.Tabs.Tab[]> {
-    return Browser.tabs.query({audible: true});
+    return Browser.tabs.query({ audible: true });
   }
 
   private static muteTab(tabId: number): void {
@@ -97,6 +97,6 @@ export class MuteUtils {
   }
 
   private static setTabMuted(tabId: number, muted: boolean): void {
-    Browser.tabs.update(tabId, {muted});
+    Browser.tabs.update(tabId, { muted });
   }
 }

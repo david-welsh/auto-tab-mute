@@ -1,7 +1,7 @@
-import Browser, {Tabs} from 'webextension-polyfill';
-import {MutingStrategy} from './MutingStrategy';
-import {MuteUtils} from './MuteUtils';
-import {Logging} from '../Logging';
+import Browser, { Tabs } from 'webextension-polyfill';
+import { MutingStrategy } from './MutingStrategy';
+import { MuteUtils } from './MuteUtils';
+import { Logging } from '../Logging';
 
 export class ActiveTabStrategy extends MutingStrategy {
   onTabActivated(tabInfo: Tabs.OnActivatedActiveInfoType): void {
@@ -9,7 +9,7 @@ export class ActiveTabStrategy extends MutingStrategy {
       if (currentTab.audible) {
         Browser.storage.sync
           .get('onlySelectedWindow')
-          .then(({onlySelectedWindow}) => {
+          .then(({ onlySelectedWindow }) => {
             Logging.trace(
               `Activated tab ${tabInfo.tabId} was marked audible, muting others`
             );
@@ -27,7 +27,7 @@ export class ActiveTabStrategy extends MutingStrategy {
     if (tabInfo.audible) {
       Browser.storage.sync
         .get('onlySelectedWindow')
-        .then(({onlySelectedWindow}) => {
+        .then(({ onlySelectedWindow }) => {
           if (tab.highlighted) {
             MuteUtils.muteAudibleUnselectedTabs(onlySelectedWindow);
           } else {
@@ -41,10 +41,10 @@ export class ActiveTabStrategy extends MutingStrategy {
   }
 
   onToggle(): void {
-    Browser.tabs.query({highlighted: true}).then((tabs) => {
+    Browser.tabs.query({ highlighted: true }).then((tabs) => {
       Browser.storage.sync
         .get('onlySelectedWindow')
-        .then(({onlySelectedWindow}) => {
+        .then(({ onlySelectedWindow }) => {
           tabs.forEach((tab) => {
             if (tab.audible) {
               MuteUtils.muteAudibleUnselectedTabs(onlySelectedWindow);
@@ -54,13 +54,15 @@ export class ActiveTabStrategy extends MutingStrategy {
     });
   }
 
-  onSelectedTabsChange(): void {}
+  onSelectedTabsChange(): void {
+    // Intentionally left empty
+  }
 
   onWindowFocusChanged(windowId: number): void {
-    Browser.tabs.query({highlighted: true}).then((tabs) => {
+    Browser.tabs.query({ highlighted: true }).then((tabs) => {
       Browser.storage.sync
         .get('onlySelectedWindow')
-        .then(({onlySelectedWindow}) => {
+        .then(({ onlySelectedWindow }) => {
           tabs.forEach((tab) => {
             if (tab.audible && tab.windowId === windowId) {
               MuteUtils.muteAudibleUnselectedTabs(onlySelectedWindow);

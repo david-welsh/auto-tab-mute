@@ -1,5 +1,5 @@
-import {MutingStrategy} from './MutingStrategy';
-import {MuteUtils} from './MuteUtils';
+import { MutingStrategy } from './MutingStrategy';
+import { MuteUtils } from './MuteUtils';
 
 export class MuteAllStrategy extends MutingStrategy {
   onTabActivated(): void {
@@ -19,5 +19,6 @@ export class MuteAllStrategy extends MutingStrategy {
   }
 
   onWindowFocusChanged() {
+    // Intentionally left empty
   }
 }

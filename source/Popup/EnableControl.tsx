@@ -10,7 +10,7 @@ import './styles.scss';
 const EnableControl: React.FC<{
   enabled: boolean;
   toggle: (enabled: boolean) => void;
-}> = ({enabled, toggle}) => {
+}> = ({ enabled, toggle }) => {
   return (
     <FormGroup>
       <FormControlLabel

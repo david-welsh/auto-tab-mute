@@ -9,7 +9,7 @@ import './styles.scss';
 const ActiveTabOptions: React.FC<{
   applyAcrossWindows: boolean;
   onChange: (apply: boolean) => void;
-}> = ({applyAcrossWindows, onChange}) => {
+}> = ({ applyAcrossWindows, onChange }) => {
   return (
     <FormControl>
       <FormControlLabel

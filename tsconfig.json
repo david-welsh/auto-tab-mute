@@ -1,8 +1,7 @@
 {
-	"extends": "@abhijithvijayan/tsconfig",
 	"compilerOptions": {
-		"target": "es5", // ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
-		"module": "esnext", // Module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
+		"target": "es2020",
+		"module": "commonjs",
 		"lib": [
 			"dom",
 			"dom.iterable",
@@ -10,12 +9,44 @@
 		],
 		"declaration": false,
 		"isolatedModules": true,
-		/* Additional Checks */
 		"useDefineForClassFields": true,
 		"skipLibCheck": true,
+
+		"jsx": "react",
+		"noEmitOnError": true,
+		"newLine": "lf",
+		"removeComments": true,
+
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": false,
+		"noImplicitThis": true,
+		"alwaysStrict": true,
+
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+
+		"forceConsistentCasingInFileNames": true,
+		"stripInternal": false
 	},
 	"include": [
 		"source",
 		"webpack.config.js"
+	],
+	"exclude": [
+		"node_modules"
 	]
 }

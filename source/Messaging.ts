@@ -15,7 +15,7 @@ export class Messaging {
   }
 
   static sendAddSelectedTab(tabId: number) {
-    Messaging.sendMessage(constants.MessageType.ADD_SELECTED_TAB, {tab: tabId});
+    Messaging.sendMessage(constants.MessageType.ADD_SELECTED_TAB, { tab: tabId });
   }
 
   static sendRemoveSelectedTab(tabId: number) {
@@ -28,13 +28,14 @@ export class Messaging {
     Messaging.sendMessage(constants.MessageType.CONFIGURATION_REQUEST);
   }
 
-  static sendConfigurationResponse(configuration: any) {
+  static sendConfigurationResponse(configuration: never) {
     Messaging.sendMessage(constants.MessageType.CONFIGURATION_RESPONSE, {
       config: configuration,
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static sendMessage(type: string, props: any = {}) {
-    Browser.runtime.sendMessage({type, ...props});
+    Browser.runtime.sendMessage({ type, ...props });
   }
 }

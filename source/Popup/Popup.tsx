@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 
 import './styles.scss';
 import Browser from 'webextension-polyfill';
-import {Messaging} from '../Messaging';
+import { Messaging } from '../Messaging';
 import StrategySelect from './StrategySelect';
 import EnableControl from './EnableControl';
 import ActiveTabOptions from './ActiveTabOptions';
@@ -23,9 +23,9 @@ const Popup: React.FC = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       const fetchedTabs = await Browser.tabs.query({});
-      const {availableStrategies, selectedTabs} =
+      const { availableStrategies, selectedTabs } =
         await Browser.storage.local.get(null);
-      const {extension_enabled, selected_strategy, onlySelectedWindow} =
+      const { extension_enabled, selected_strategy, onlySelectedWindow } =
         await Browser.storage.sync.get(null);
 
       setTabs(fetchedTabs);
@@ -76,7 +76,7 @@ const Popup: React.FC = () => {
               <ActiveTabOptions
                 applyAcrossWindows={applyAcrossWindows}
                 onChange={(apply) => {
-                  Browser.storage.sync.set({onlySelectedWindow: apply});
+                  Browser.storage.sync.set({ onlySelectedWindow: apply });
                   setApplyAcrossWindows(apply);
                   Messaging.sendEnableDisable(enabled);
                 }}

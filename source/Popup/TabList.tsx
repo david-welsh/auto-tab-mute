@@ -17,12 +17,12 @@ const TabList: React.FC<{
   selectedTabIds: number[];
   selectTab: (tabId: number) => void;
   deselectTab: (tabId: number) => void;
-}> = ({tabs, selectedTabIds, selectTab, deselectTab}) => {
+}> = ({ tabs, selectedTabIds, selectTab, deselectTab }) => {
   return (
     <FormControl>
-      <FormLabel style={{marginBottom: '5px'}}>Allowed tabs</FormLabel>
+      <FormLabel style={{ marginBottom: '5px' }}>Allowed tabs</FormLabel>
       <TableContainer component={Paper}>
-        <Table size="small" style={{tableLayout: 'fixed'}}>
+        <Table size="small" style={{ tableLayout: 'fixed' }}>
           <TableBody>
             {tabs.map((tab) => {
               const checked = selectedTabIds.includes(tab.id!);

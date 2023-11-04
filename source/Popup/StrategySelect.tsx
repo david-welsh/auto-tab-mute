@@ -12,7 +12,7 @@ const StrategySelect: React.FC<{
   strategies: string[];
   selectedStrategy: string;
   onChange: (selected: string) => void;
-}> = ({strategies, selectedStrategy, onChange}) => {
+}> = ({ strategies, selectedStrategy, onChange }) => {
   return (
     <FormControl>
       <FormLabel>Strategy</FormLabel>
