@@ -31,7 +31,7 @@ jobs:
       - name: Build Safari Extension
         if: success()
         run: |
-          cd safari-extension/Auto Tab Mute.xcodeproj
+          cd safari-extension/Auto\ Tab\ Mute.xcodeproj
           xcodebuild -scheme "Auto Tab Mute" -configuration Release build ARCHIVE_PATH=./build/AutoTabMute.xcarchive
 
       - name: Archive Safari Extension Build Artifacts
