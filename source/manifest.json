@@ -1,7 +1,6 @@
 {
   "manifest_version": 3,
   "name": "Auto Tab Mute",
-  "version": "3.0",
   "icons": {
     "16": "assets/icons/Logo-16x16.png",
     "32": "assets/icons/Logo-48x48.png",

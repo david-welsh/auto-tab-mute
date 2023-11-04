@@ -1,6 +1,9 @@
 Extension to automatically mute background tabs if the current tab is playing audio. This allows for fast switching between different audio playing tabs without manually muting and unmuting. This extension can be toggled on/off by a button added to the browser interface or by a keyboard shortcut (Ctrl+Shift+U/Cmd+Shift+U).
 
 Updates
+Version 3.1:
+- Fixed behaviour when "Apply across windows" was selected and the active window was not on an audible tab but a background window had an audible tab
+
 Version 3.0:
 - Added experimental option for 'Active Tab' strategy to apply it across multiple windows (please send any issues to the listed email address)
 - Added 'Mute All' strategy to mute every tab and prevent any new tabs playing audio
