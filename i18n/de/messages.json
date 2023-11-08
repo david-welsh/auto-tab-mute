@@ -1,0 +1,23 @@
+{
+  "extensionEnabled": {
+    "message": "Erweiterung aktiviert"
+  },
+  "strategy": {
+    "message": "Strategie"
+  },
+  "activeTab": {
+    "message": "Aktiver Tab"
+  },
+  "allowList": {
+    "message": "Erlaubnisliste"
+  },
+  "muteAll": {
+    "message": "Alle stummschalten"
+  },
+  "allowedTabs": {
+    "message": "Erlaubte Tabs"
+  },
+  "applyAcrossWindows": {
+    "message": "Auf alle Fenster anwenden"
+  }
+}

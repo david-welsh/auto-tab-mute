@@ -1,0 +1,23 @@
+{
+  "extensionEnabled": {
+    "message": "Extension activée"
+  },
+  "strategy": {
+    "message": "Stratégie"
+  },
+  "activeTab": {
+    "message": "Onglet actif"
+  },
+  "allowList": {
+    "message": "Liste blanche"
+  },
+  "muteAll": {
+    "message": "Tout mettre en sourdine"
+  },
+  "allowedTabs": {
+    "message": "Onglets autorisés"
+  },
+  "applyAcrossWindows": {
+    "message": "Appliquer sur toutes les fenêtres"
+  }
+}

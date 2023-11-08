@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import Browser from 'webextension-polyfill';
+
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
@@ -13,7 +15,7 @@ const ActiveTabOptions: React.FC<{
   return (
     <FormControl>
       <FormControlLabel
-        label="Apply across windows"
+        label={Browser.i18n.getMessage('applyAcrossWindows')}
         control={
           <Checkbox
             checked={applyAcrossWindows}

@@ -1,0 +1,23 @@
+{
+  "extensionEnabled": {
+    "message": "Extension enabled"
+  },
+  "strategy": {
+    "message": "Strategy"
+  },
+  "activeTab": {
+    "message": "Active tab"
+  },
+  "allowList": {
+    "message": "Allow list"
+  },
+  "muteAll": {
+    "message": "Mute all"
+  },
+  "allowedTabs": {
+    "message": "Allowed tabs"
+  },
+  "applyAcrossWindows": {
+    "message": "Apply across windows"
+  }
+}

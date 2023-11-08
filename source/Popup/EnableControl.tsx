@@ -6,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
 import './styles.scss';
+import Browser from 'webextension-polyfill';
 
 const EnableControl: React.FC<{
   enabled: boolean;
@@ -20,7 +21,7 @@ const EnableControl: React.FC<{
             onChange={(event) => toggle(event.target.checked)}
           />
         }
-        label="Extension enabled"
+        label={Browser.i18n.getMessage("extensionEnabled")}
         labelPlacement="end"
       />
     </FormGroup>

@@ -1,0 +1,23 @@
+{
+  "extensionEnabled": {
+    "message": "Extensión habilitada"
+  },
+  "strategy": {
+    "message": "Estrategia"
+  },
+  "activeTab": {
+    "message": "Pestaña activa"
+  },
+  "allowList": {
+    "message": "Lista de permitidos"
+  },
+  "muteAll": {
+    "message": "Silenciar todo"
+  },
+  "allowedTabs": {
+    "message": "Pestañas permitidas"
+  },
+  "applyAcrossWindows": {
+    "message": "Aplicar en todas las ventanas"
+  }
+}

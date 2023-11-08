@@ -70,7 +70,7 @@ const Popup: React.FC = () => {
               setSelectedStrategy(selected);
             }}
           />
-          {selectedStrategy === 'Active tab' ? (
+          {selectedStrategy === 'activeTab' ? (
             <>
               {divider}
               <ActiveTabOptions
@@ -83,7 +83,7 @@ const Popup: React.FC = () => {
               />
             </>
           ) : null}
-          {selectedStrategy === 'Allow list' ? (
+          {selectedStrategy === 'allowList' ? (
             <>
               {divider}
               <TabList

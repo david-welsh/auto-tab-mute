@@ -20,7 +20,7 @@ const TabList: React.FC<{
 }> = ({ tabs, selectedTabIds, selectTab, deselectTab }) => {
   return (
     <FormControl>
-      <FormLabel style={{ marginBottom: '5px' }}>Allowed tabs</FormLabel>
+      <FormLabel style={{ marginBottom: '5px' }}>{Browser.i18n.getMessage('allowedTabs')}</FormLabel>
       <TableContainer component={Paper}>
         <Table size="small" style={{ tableLayout: 'fixed' }}>
           <TableBody>

@@ -8,9 +8,9 @@ import { MuteAllStrategy } from './MuteAllStrategy';
 import { Logging } from '../Logging';
 
 const mutingStrategies = new Map<string, MutingStrategy>();
-mutingStrategies.set('Active tab', new ActiveTabStrategy());
-mutingStrategies.set('Allow list', new AllowListStrategy());
-mutingStrategies.set('Mute all', new MuteAllStrategy());
+mutingStrategies.set('activeTab', new ActiveTabStrategy());
+mutingStrategies.set('allowList', new AllowListStrategy());
+mutingStrategies.set('muteAll', new MuteAllStrategy());
 
 async function getConfig(): Promise<{
   enabled: boolean;
@@ -88,7 +88,13 @@ function initStorage(): void {
   Logging.trace('Initialising storage');
   getConfig().then(({ selectedStrategy, enabled }) => {
     if (selectedStrategy == null) {
-      Browser.storage.sync.set({ selected_strategy: 'Active tab' });
+      Browser.storage.sync.set({ selected_strategy: 'activeTab' });
+    } else if (selectedStrategy === 'Active tab') {
+      Browser.storage.sync.set({ selected_strategy: 'activeTab' });
+    } else if (selectedStrategy === 'Allow list') {
+      Browser.storage.sync.set({ selected_strategy: 'allowList' });
+    } else if (selectedStrategy === 'Mute all') {
+      Browser.storage.sync.set({ selected_strategy: 'muteAll' });
     }
     if (enabled == null) {
       Browser.storage.sync.set({ extension_enabled: true });

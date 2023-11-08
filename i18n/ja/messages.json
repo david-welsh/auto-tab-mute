@@ -1,0 +1,23 @@
+{
+  "extensionEnabled": {
+    "message": "拡張機能が有効になりました"
+  },
+  "strategy": {
+    "message": "戦略"
+  },
+  "activeTab": {
+    "message": "アクティブタブ"
+  },
+  "allowList": {
+    "message": "許可リスト"
+  },
+  "muteAll": {
+    "message": "すべてミュート"
+  },
+  "allowedTabs": {
+    "message": "許可されたタブ"
+  },
+  "applyAcrossWindows": {
+    "message": "全てのウィンドウに適用"
+  }
+}

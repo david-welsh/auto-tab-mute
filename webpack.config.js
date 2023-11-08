@@ -141,7 +141,10 @@ module.exports = {
     new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
     // copy static assets
     new CopyWebpackPlugin({
-      patterns: [{ from: 'source/assets', to: 'assets' }],
+      patterns: [
+        { from: 'source/assets', to: 'assets' },
+        { from: 'i18n', to: '_locales' }
+      ],
     }),
   ],
 

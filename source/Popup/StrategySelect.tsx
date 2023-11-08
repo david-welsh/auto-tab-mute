@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 import './styles.scss';
+import Browser from 'webextension-polyfill';
 
 const StrategySelect: React.FC<{
   strategies: string[];
@@ -15,7 +16,7 @@ const StrategySelect: React.FC<{
 }> = ({ strategies, selectedStrategy, onChange }) => {
   return (
     <FormControl>
-      <FormLabel>Strategy</FormLabel>
+      <FormLabel>{Browser.i18n.getMessage('strategy')}</FormLabel>
       <RadioGroup
         value={selectedStrategy}
         onChange={(event) => onChange(event.target.value)}
@@ -25,7 +26,7 @@ const StrategySelect: React.FC<{
             <FormControlLabel
               value={strategy}
               control={<Radio size="small" />}
-              label={strategy}
+              label={Browser.i18n.getMessage(strategy)}
             />
           );
         })}

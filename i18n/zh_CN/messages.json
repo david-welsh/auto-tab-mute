@@ -1,0 +1,23 @@
+{
+  "extensionEnabled": {
+    "message": "扩展已启用"
+  },
+  "strategy": {
+    "message": "策略"
+  },
+  "activeTab": {
+    "message": "活动标签页"
+  },
+  "allowList": {
+    "message": "允许列表"
+  },
+  "muteAll": {
+    "message": "全部静音"
+  },
+  "allowedTabs": {
+    "message": "允许的标签页"
+  },
+  "applyAcrossWindows": {
+    "message": "应用于所有窗口"
+  }
+}

@@ -8,6 +8,7 @@
   },
   "description": "Automatically mutes background tabs",
   "short_name": "ATM",
+  "default_locale": "en",
   "permissions": [
     "tabs",
     "storage"
